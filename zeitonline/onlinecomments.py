@@ -21,7 +21,7 @@ from warnings import warn
 
 warn("Warning Simulation")
 
-articleurl='https://www.zeit.de/politik/ausland/2018-07/fluechtlinge-horst-seehofer-kabul-abschiebung-selbstmord'
+articleurl='https://www.zeit.de/politik/deutschland/2018-07/asyldebatte-heinrich-bedford-strohm-ekd'
 response=get(articleurl)
 page_html = BeautifulSoup(response.text, 'html.parser')
 cmsection = page_html.find('div', class_="comment-section__item").small.text[-5:]
@@ -36,7 +36,7 @@ text = []
 overlayurls =[]
 
 pages = [str(i) for i in range(1,int(maxcmpage)+1)] #which pages to crawl
-pages = [str(i) for i in range(1,3)]
+#pages = [str(i) for i in range(1,3)]  #only first 2 pages of comments
 
      
 start_time = time()
