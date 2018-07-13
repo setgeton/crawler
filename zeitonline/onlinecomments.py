@@ -36,7 +36,7 @@ text = []
 overlayurls =[]
 
 pages = [str(i) for i in range(1,int(maxcmpage)+1)] #which pages to crawl
-#pages = [str(i) for i in range(1,3)]
+pages = [str(i) for i in range(1,3)]
 
      
 start_time = time()
