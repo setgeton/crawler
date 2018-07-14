@@ -16,24 +16,51 @@ from random import randint
 
 from IPython.core.display import clear_output
 
+import re 
     
 from warnings import warn
 
 warn("Warning Simulation")
 
-articleurl='https://www.zeit.de/politik/deutschland/2018-07/asyldebatte-heinrich-bedford-strohm-ekd'
+articleurl='https://www.zeit.de/politik/deutschland/2018-07/sami-a-al-kaida-osama-bin-laden-leibwaechter-abschiebung'
 response=get(articleurl)
 page_html = BeautifulSoup(response.text, 'html.parser')
+
+articleparas=[]
+headline=[]
+summary=[]
+
+para_containers = page_html.find_all('p', class_="paragraph article__item")
+summary_container = page_html.find('div', class_="summary")
+headline_container = page_html.find('span', class_="article-heading__title")
+
+for container in para_containers:
+            #scrape paragraphs of the article
+        para = container.text
+        para = re.sub('\n', ' ', para)
+        para = re.sub(';', ',', para)
+        articleparas.append(para)
+
+summary=summary_container.text
+headline=headline_container.text
+
+
 cmsection = page_html.find('div', class_="comment-section__item").small.text[-5:]
 if type(cmsection) is None:
     cmsection="      1"
-import re 
+
 maxcmpage=re.sub("[^0-9]", "", cmsection)
+
+
+
+
+
 
 usernames = []
 cmnumbers = []
 text = []
 overlayurls =[]
+
 
 pages = [str(i) for i in range(1,int(maxcmpage)+1)] #which pages to crawl
 #pages = [str(i) for i in range(1,3)]  #only first 2 pages of comments
@@ -43,6 +70,10 @@ start_time = time()
 requests = 0
 
 #headers = {"Accept-Language": "en-US, en;q=0.5"}
+
+
+
+
 
 for page in pages:
 
@@ -154,7 +185,11 @@ zeitcomments = pd.DataFrame({'username': usernames,
                               'subcmnum': subcmnum,
                               'text': text})
 
-zeitcomments.to_csv('zeitcomments.csv', sep=';')    
+articleb=[headline,summary]+articleparas
+articlebody = pd.DataFrame({'text': articleb})    
+
+zeitcomments.to_csv('zeitcomments.csv', sep=';')  
+articlebody.to_csv('article.csv', sep=';')    
     
 print(zeitcomments.info())
 zeitcomments.head(10)

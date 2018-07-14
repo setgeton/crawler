@@ -14,6 +14,15 @@ import re
 
 from nonwords_de import nonwordslist_de
 
+article = pd.read_csv("article.csv",delimiter=';')
+arttext=np.asarray(article['text'].astype('str')).ravel().tolist()
+arttext=' '.join(arttext)
+
+arttext=re.sub('/sq', ' ', arttext)
+arttext=re.sub('/spt', ' ', arttext)
+arttext=re.sub('[^a-z^A-Z^ä^ö^ü^ß^Ä^Ö^Ü]+', ' ', arttext)
+articletokens = [t for t in arttext.split()]
+
 
 data = pd.read_csv("zeitcomments.csv",delimiter=';')
 textlist=np.asarray(data['text'].astype('str')).ravel().tolist()
@@ -26,10 +35,11 @@ tokens = [t for t in endlostext.split()]
 freq = nltk.FreqDist(tokens)
 freqlist=[]
 for key,val in freq.items():
-   if numofcm * 0.02<val:
+   if numofcm * 0.01<val:
        if not str(key) in nonwordslist_de:
-        print (str(key) + ':' + str(val))
-        freqlist.append(str(key))
+         if not str(key) in articletokens:  
+             print (str(key) + ':' + str(val))
+             freqlist.append(str(key))
         
 #nlp = spacy.load('de', parse=True, tag=True, entity=True)
 #nlp_vec = spacy.load('en_vecs', parse = True, tag=True, #entity=True)
