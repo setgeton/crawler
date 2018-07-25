@@ -1,6 +1,6 @@
 Zeit Online Comments Scraper
 
-Web scraper design to scrape comments in online newspaper "Zeit online"
+Web scraper designed to scrape comments in online newspaper "Zeit online"
 
 
 INSTRUCTIONS:
