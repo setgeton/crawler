@@ -22,7 +22,7 @@ from warnings import warn
 
 warn("Warning Simulation")
 
-articleurl='https://www.zeit.de/politik/deutschland/2018-07/sami-a-al-kaida-osama-bin-laden-leibwaechter-abschiebung'
+articleurl='https://www.zeit.de/2018/32/demokratie-postdemokratie-mittelschicht-modernisierungsverlierer'
 response=get(articleurl)
 page_html = BeautifulSoup(response.text, 'html.parser')
 
@@ -188,8 +188,8 @@ zeitcomments = pd.DataFrame({'username': usernames,
 articleb=[headline,summary]+articleparas
 articlebody = pd.DataFrame({'text': articleb})    
 
-zeitcomments.to_csv('zeitcomments.csv', sep=';')  
-articlebody.to_csv('article.csv', sep=';')    
+zeitcomments.to_csv('zeitcomments.csv', sep=';', encoding='utf-8-sig')  
+articlebody.to_csv('article.csv', sep=';', encoding='utf-8-sig')    
     
 print(zeitcomments.info())
 zeitcomments.head(10)

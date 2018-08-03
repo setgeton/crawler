@@ -5,11 +5,11 @@ Created on Fri Jul 13 15:00:32 2018
 @author: elvis
 """
 
-import spacy
+#import spacy
 import pandas as pd
 import numpy as np
 import nltk
-from nltk.tokenize.toktok import ToktokTokenizer
+#from nltk.tokenize.toktok import ToktokTokenizer
 import re
 
 from nonwords_de import nonwordslist_de
@@ -34,12 +34,19 @@ endlostext=re.sub('[^a-z^A-Z^ä^ö^ü^ß^Ä^Ö^Ü]+', ' ', endlostext)
 tokens = [t for t in endlostext.split()]
 freq = nltk.FreqDist(tokens)
 freqlist=[]
+wordlist=[]
 for key,val in freq.items():
-   if numofcm * 0.01<val:
+   if numofcm * 0.02<val:
        if not str(key) in nonwordslist_de:
-         if not str(key) in articletokens:  
-             print (str(key) + ':' + str(val))
-             freqlist.append(str(key))
+           # DELETE NEXT LINE TO RECEIVE POPULAR WORDS; NOW: POPULAR WORDS NOT IN ATRICLE
+         if not str(key) in articletokens:    
+             #print (str(key) + ':' + str(val))
+             wordlist.append(str(key))
+             freqlist.append(val)
+             
+#sortedwords=[x for _,x in sorted(zip(freqlist,wordlist))]
+sortedlist=sorted(zip(freqlist,wordlist))
+list(sortedlist)
         
 #nlp = spacy.load('de', parse=True, tag=True, entity=True)
 #nlp_vec = spacy.load('en_vecs', parse = True, tag=True, #entity=True)
@@ -48,4 +55,5 @@ for key,val in freq.items():
 #print(doc.text)
 #for token in doc:
  #   print(token.text, token.pos_, token.dep_)
+
 
